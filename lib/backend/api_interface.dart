@@ -111,4 +111,31 @@ class ApiInterface {
       return response.statusCode.toString();
     }
   }
+
+  static Future<String> getSolution(
+      {required String pov_para,
+      required String problemStatement,
+      required WidgetRef ref}) async {
+    final response = await http.post(
+      Uri.parse(generate_solution),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        "pov_para": pov_para,
+        "problem_statement": problemStatement,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      return responseData['response'];
+      // final rephrasedPrompt = responseData['response'];
+      // ref.read(promptProvider.notifier).update((state) => rephrasedPrompt);
+    } else {
+      print(
+          'Failed to send problem statement. Status code: ${response.statusCode}');
+      return response.statusCode.toString();
+    }
+  }
 }
