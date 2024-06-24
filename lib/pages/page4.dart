@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shuru_frontent/backend/api_interface.dart';
+import 'package:shuru_frontent/pages/page1.dart';
 
 class Page4 extends ConsumerStatefulWidget {
   const Page4({super.key});
@@ -60,7 +62,7 @@ class _Page4State extends ConsumerState<Page4> {
   void fetchSolution() async {
     setState(() {
       isFetchingResponse = true;
-      currentTypingPersona = "Finding solution...";
+      currentTypingPersona = "Pseudo Admin is forming a solution...";
     });
     var solution = await ApiInterface.getSolution(
         pov_para: pov_para, problemStatement: userInput, ref: ref);
@@ -68,7 +70,8 @@ class _Page4State extends ConsumerState<Page4> {
       finalSolution = solution; // Store the final solution
       responses.add({
         "persona": "Solution",
-        "response": "Based on the perspectives provided I suggest:\n$solution",
+        "response":
+            "Pseudo Admin: \n Based on the suggestions provided I came up with this solution:\n$solution",
       });
       isFetchingResponse = false;
     });
@@ -79,8 +82,7 @@ class _Page4State extends ConsumerState<Page4> {
     for (var i = 0; i < PersonaList.length; i++) {
       setState(() {
         isFetchingResponse = true;
-        currentTypingPersona =
-            "${PersonaList[i][0]} is reviewing the solution...";
+        currentTypingPersona = "${PersonaList[i][0]} is typing...";
       });
       var feedback = await ApiInterface.getAgentFeedback(
         agent_name: PersonaList[i][0],
@@ -104,7 +106,7 @@ class _Page4State extends ConsumerState<Page4> {
   void getSolutionAfterFeedback() async {
     setState(() {
       isFetchingResponse = true;
-      currentTypingPersona = "Processing feedback...";
+      currentTypingPersona = "Pseudo Admin: \nProcessing feedback...";
     });
     var userFeedbackResponse = await ApiInterface.getSolutionWithFeedback(
         prev_solution: finalSolution,
@@ -116,7 +118,8 @@ class _Page4State extends ConsumerState<Page4> {
           userFeedbackResponse; // Set the value of finalSolution to the response
       responses.add({
         "persona": "User Feedback",
-        "response": "Based on your feedback:\n$userFeedbackResponse",
+        "response":
+            "Pseudo Admin: \n Based on the feedback provided I Suggest:\n$userFeedbackResponse",
       });
       isFetchingResponse = false;
       showFeedbackInput =
@@ -127,78 +130,150 @@ class _Page4State extends ConsumerState<Page4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: SizedBox(
-                width: 700,
-                child: ListView.builder(
-                  itemCount:
-                      responses.length + 1 + (isFetchingResponse ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return ChatBubble(
-                        backGroundColor: Colors.grey,
-                        clipper:
-                            ChatBubbleClipper7(type: BubbleType.sendBubble),
-                        padding: const EdgeInsets.all(10),
-                        child: Text(userInput),
-                      );
-                    } else if (index <= responses.length) {
-                      String displayText = responses[index - 1]["response"] ??
-                          responses[index - 1]["feedback"]!;
-                      return ChatBubble(
-                        clipper:
-                            ChatBubbleClipper7(type: BubbleType.receiverBubble),
-                        child: Text(displayText),
-                      );
-                    } else {
-                      return ChatBubble(
-                        clipper:
-                            ChatBubbleClipper7(type: BubbleType.receiverBubble),
-                        child: Text(currentTypingPersona),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ),
-            if (showFeedbackInput) ...[
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child:
-                    Text("To continue, give feedback in the text field below"),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: TextField(
-                  controller: feedbackController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Feedback',
-                  ),
-                  onSubmitted: (value) async {
-                    setState(() {
-                      feedback_para =
-                          ''; // Reset feedback_para before appending new feedback
-                      feedback_para += "$value "; // Append the new feedback
-                      responses.add({
-                        "persona": "User",
-                        "response": "User Feedback:\n$value",
-                      }); // Add a senderBubble with the submitted text
-                    });
-                    fetchAgentFeedback() // Fetch feedback from agents
-                        .then((_) => getSolutionAfterFeedback());
-                    feedbackController
-                        .clear(); // Clear the text field after submission
-                  },
-                ),
-              ),
-            ],
-            if (isFetchingResponse) const CircularProgressIndicator(),
-          ],
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("lib/assets/04.jpg"),
+            fit: BoxFit.cover,
+          ),
         ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 80.0, vertical: 40),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount:
+                        responses.length + 1 + (isFetchingResponse ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return ChatBubble(
+                          clipper:
+                              ChatBubbleClipper4(type: BubbleType.sendBubble),
+                          alignment: Alignment.topRight,
+                          margin: EdgeInsets.all(20),
+                          backGroundColor: Colors.blueGrey,
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.7,
+                            ),
+                            child: Text(
+                              userInput,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                          ),
+                        );
+                      } else if (index <= responses.length) {
+                        String displayText = responses[index - 1]["response"] ??
+                            responses[index - 1]["feedback"]!;
+                        return
+                            // ChatBubble(
+                            //   clipper: ChatBubbleClipper7(
+                            //       type: BubbleType.receiverBubble),
+                            //   child: Text(displayText),
+                            // );
+                            ChatBubble(
+                          clipper: ChatBubbleClipper4(
+                              type: BubbleType.receiverBubble),
+                          backGroundColor: Color(0xffE7E7ED),
+                          margin: EdgeInsets.only(top: 20),
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.7,
+                            ),
+                            child: Text(
+                              displayText,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return ChatBubble(
+                          clipper: ChatBubbleClipper4(
+                              type: BubbleType.receiverBubble),
+                          backGroundColor: Color(0xffE7E7ED),
+                          margin: EdgeInsets.only(top: 20),
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.7,
+                            ),
+                            child: Text(
+                              currentTypingPersona,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                        );
+                        // ChatBubble(
+                        //   clipper: ChatBubbleClipper7(
+                        //       type: BubbleType.receiverBubble),
+                        //   child: Text(currentTypingPersona),
+                        // );
+                      }
+                    },
+                  ),
+                ),
+                if (showFeedbackInput) ...[
+                  // Padding(
+                  //   padding: EdgeInsets.all(8.0),
+                  //   child: Text(
+                  //     "To continue, give feedback in the text field below",
+                  //     style: GoogleFonts.ubuntuMono(
+                  //         fontSize: 20,
+                  //         fontWeight: FontWeight.bold,
+                  //         color: Colors.white70),
+                  //   ),
+                  // ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 100.0, vertical: 40),
+                    child: TextField(
+                      controller: feedbackController,
+                      decoration: const InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        border: OutlineInputBorder(),
+                        labelText:
+                            'To Continue The Discussion Please Provide Some Feedback',
+                      ),
+                      onSubmitted: (value) async {
+                        setState(() {
+                          feedback_para =
+                              ''; // Reset feedback_para before appending new feedback
+                          feedback_para += "$value "; // Append the new feedback
+                          responses.add({
+                            "persona": "User",
+                            "response": "User Feedback:\n$value",
+                          }); // Add a senderBubble with the submitted text
+                        });
+                        fetchAgentFeedback() // Fetch feedback from agents
+                            .then((_) => getSolutionAfterFeedback());
+                        feedbackController
+                            .clear(); // Clear the text field after submission
+                      },
+                    ),
+                  ),
+                ],
+                if (isFetchingResponse)
+                  const CircularProgressIndicator(
+                    color: Colors.blueGrey,
+                    backgroundColor: Colors.white,
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Page1()),
+          );
+        },
+        child: Icon(Icons.exit_to_app),
       ),
     );
   }

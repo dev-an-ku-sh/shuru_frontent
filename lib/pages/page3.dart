@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shuru_frontent/backend/state.dart';
+import 'package:shuru_frontent/pages/page1.dart';
+import 'package:shuru_frontent/pages/page2.dart';
 import 'package:shuru_frontent/pages/page4.dart';
 
 class Page3 extends ConsumerStatefulWidget {
@@ -12,6 +15,27 @@ class Page3 extends ConsumerStatefulWidget {
 
 class _Page3State extends ConsumerState<Page3> {
   List PersonaList = [];
+  //   [
+  //     'Agricultural Andy',
+  //     'Promote sustainable farming practices and invest in research and development for more productive and resilient crops.'
+  //   ],
+  //   [
+  //     'Humanitarian Hannah',
+  //     'Implement food aid programs and emergency relief efforts to provide immediate assistance to those experiencing hunger.'
+  //   ],
+  //   [
+  //     'Economic Eddie',
+  //     'Address the root causes of poverty and economic instability through policies that support small businesses, education, and fair labor practices.'
+  //   ],
+  //   [
+  //     'Technological Tomas',
+  //     'Leverage technology such as precision farming, irrigation systems, and food preservation methods to increase agricultural productivity.'
+  //   ],
+  //   [
+  //     'Social Services Sally',
+  //     'Provide access to nutrition programs, affordable healthy foods, and community gardens to promote long-term health and prevent hunger.'
+  //   ]
+  // ];
   @override
   void initState() {
     PersonaList = ref.read(personaListProvider);
@@ -22,50 +46,180 @@ class _Page3State extends ConsumerState<Page3> {
   Widget build(BuildContext context) {
     PersonaList = ref.watch(personaListProvider);
     return Scaffold(
-      body: Center(
-        child: PersonaList.isEmpty
-            ? const CircularProgressIndicator() // Show loading indicator when list is empty
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(PersonaList.length, (index) {
-                  if (PersonaList.length > index &&
-                      PersonaList[index].length >= 2) {
-                    return Card(
-                      color: Colors.blueGrey,
-                      child: Container(
-                        height: 300,
-                        width: 240,
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(PersonaList[index][0],
-                                style: const TextStyle(
-                                    fontSize: 16, color: Colors.white)),
-                            const SizedBox(height: 10), // Spacing between texts
-                            Text(PersonaList[index][1],
-                                style: const TextStyle(
-                                    fontSize: 16, color: Colors.white)),
-                          ],
-                        ),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("lib/assets/03.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: PersonaList.isEmpty
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    const SizedBox(
+                      width: 120,
+                      height: 120,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 8,
                       ),
-                    );
-                  } else {
-                    // Return an empty container if the condition is not met
-                    return Container();
-                  }
-                }),
-              ),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      'Summoning Beings Of Higher Intelligence...',
+                      style: GoogleFonts.aBeeZee(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ) // Show loading indicator when list is empty
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 100,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'These AI Agents Will Be Joining You...',
+                          style: GoogleFonts.aBeeZee(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(PersonaList.length, (index) {
+                        if (PersonaList.length > index &&
+                            PersonaList[index].length >= 2) {
+                          return Card(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            color: Colors.white12,
+                            child: Container(
+                              height: 300,
+                              width: 240,
+                              padding: const EdgeInsets.all(8),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(PersonaList[index][0],
+                                      style: const TextStyle(
+                                          fontSize: 20, color: Colors.white)),
+                                  const SizedBox(
+                                      height: 10), // Spacing between texts
+                                  Text(PersonaList[index][1],
+                                      style: const TextStyle(
+                                          fontSize: 16, color: Colors.white)),
+                                ],
+                              ),
+                            ),
+                          );
+                        } else {
+                          // Return an empty container if the condition is not met
+                          return Container();
+                        }
+                      }),
+                    ),
+                    SizedBox(
+                      height: 160,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(28.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            decoration: const BoxDecoration(
+                              color: Colors
+                                  .white, // Set the container color to white
+                              shape: BoxShape
+                                  .circle, // Make the container circular
+                            ),
+                            child: IconButton(
+                              onPressed: () {
+                                ref
+                                    .read(promptProvider.notifier)
+                                    .update((state) => '');
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Page1()),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back,
+                                size: 50,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            '< Click To Start Over',
+                            style: GoogleFonts.ubuntuMono(
+                                fontSize: 20,
+                                // fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          SizedBox(
+                            width: 200,
+                          ),
+                          Text(
+                            'Click To Continue To Conference >',
+                            style: GoogleFonts.ubuntuMono(
+                                fontSize: 20,
+                                // fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          Container(
+                            decoration: const BoxDecoration(
+                              color: Colors
+                                  .white, // Set the container color to white
+                              shape: BoxShape
+                                  .circle, // Make the container circular
+                            ),
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Page4()),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.arrow_forward,
+                                size: 50,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const Page4()),
-          );
-        },
-        child: const Icon(Icons.arrow_forward),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(builder: (context) => const Page4()),
+      //     );
+      //   },
+      //   child: const Icon(Icons.arrow_forward),
+      // ),
     );
   }
 }

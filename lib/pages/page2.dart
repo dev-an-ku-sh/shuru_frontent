@@ -213,6 +213,7 @@ class _Page2State extends ConsumerState<Page2> {
                           feedback: textEditingController.text,
                           ref: ref);
                       ref.read(promptProvider.notifier).update((state) => '');
+                      textEditingController.clear();
                     },
                   ),
                 )
