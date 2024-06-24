@@ -222,17 +222,6 @@ class _Page2State extends ConsumerState<Page2> {
           ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.white,
-      //   onPressed: () {
-      //     ApiInterface.getPersonaList(problemStatement: prompt, ref: ref);
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(builder: (context) => const Page3()),
-      //     );
-      //   },
-      //   child: const Icon(Icons.arrow_forward),
-      // ),
     );
   }
 }

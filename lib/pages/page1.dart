@@ -32,7 +32,7 @@ class _Page1State extends ConsumerState<Page1> {
                 Row(
                   children: [
                     Text(
-                      "THE MIND PLACE",
+                      "THE SECOND MIND",
                       style: GoogleFonts.aBeeZee(
                           fontSize: 100,
                           fontWeight: FontWeight.bold,

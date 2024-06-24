@@ -14,27 +14,6 @@ class Page3 extends ConsumerStatefulWidget {
 
 class _Page3State extends ConsumerState<Page3> {
   List PersonaList = [];
-  //   [
-  //     'Agricultural Andy',
-  //     'Promote sustainable farming practices and invest in research and development for more productive and resilient crops.'
-  //   ],
-  //   [
-  //     'Humanitarian Hannah',
-  //     'Implement food aid programs and emergency relief efforts to provide immediate assistance to those experiencing hunger.'
-  //   ],
-  //   [
-  //     'Economic Eddie',
-  //     'Address the root causes of poverty and economic instability through policies that support small businesses, education, and fair labor practices.'
-  //   ],
-  //   [
-  //     'Technological Tomas',
-  //     'Leverage technology such as precision farming, irrigation systems, and food preservation methods to increase agricultural productivity.'
-  //   ],
-  //   [
-  //     'Social Services Sally',
-  //     'Provide access to nutrition programs, affordable healthy foods, and community gardens to promote long-term health and prevent hunger.'
-  //   ]
-  // ];
   @override
   void initState() {
     PersonaList = ref.read(personaListProvider);
@@ -134,7 +113,7 @@ class _Page3State extends ConsumerState<Page3> {
                       }),
                     ),
                     const SizedBox(
-                      height: 160,
+                      height: 240,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(28.0),
@@ -210,15 +189,6 @@ class _Page3State extends ConsumerState<Page3> {
                 ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(builder: (context) => const Page4()),
-      //     );
-      //   },
-      //   child: const Icon(Icons.arrow_forward),
-      // ),
     );
   }
 }

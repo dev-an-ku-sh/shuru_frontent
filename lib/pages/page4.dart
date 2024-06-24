@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shuru_frontent/backend/api_interface.dart';
+import 'package:shuru_frontent/backend/state.dart';
 import 'package:shuru_frontent/pages/page1.dart';
 
 class Page4 extends ConsumerStatefulWidget {
@@ -12,24 +13,21 @@ class Page4 extends ConsumerStatefulWidget {
 }
 
 class _Page4State extends ConsumerState<Page4> {
-  List PersonaList = [
-    ["Miner Max", "Advocate for increasing network capacity..."],
-    ["Developer Dan", "Propose the development and implementation..."],
-  ];
-  String userInput = 'how to reduce evm gas fees';
+  List PersonaList = [];
+  String userInput = '';
   List<Map<String, String>> responses = [];
   bool isFetchingResponse = false;
   String pov_para = '';
-  String feedback_para = ''; // Variable to store feedback responses
+  String feedback_para = '';
   String currentTypingPersona = '';
-  String finalSolution = ''; // Variable to store the final solution
-  bool showFeedbackInput =
-      false; // Variable to control the visibility of the feedback input and text
-  final TextEditingController feedbackController =
-      TextEditingController(); // Controller for feedback input
+  String finalSolution = '';
+  bool showFeedbackInput = false;
+  final TextEditingController feedbackController = TextEditingController();
 
   @override
   void initState() {
+    userInput = ref.read(promptProvider);
+    PersonaList = ref.read(personaListProvider);
     super.initState();
     fetchResponsesSequentially();
   }
@@ -159,8 +157,8 @@ class _Page4State extends ConsumerState<Page4> {
                             ),
                             child: Text(
                               userInput,
-                              style:
-                                  const TextStyle(color: Colors.white, fontSize: 18),
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 18),
                             ),
                           ),
                         );
