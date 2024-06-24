@@ -24,7 +24,43 @@ class _Page2State extends ConsumerState<Page2> {
 
   @override
   Widget build(BuildContext context) {
-    prompt = ref.watch(promptProvider) ?? '';
+    prompt = ref.watch(promptProvider);
+    if (prompt == '') {
+      return Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("lib/assets/02.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 120,
+                height: 120,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 8,
+                ),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              Text(
+                'Trying To Decipher That...',
+                style: GoogleFonts.aBeeZee(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ],
+          )),
+        ),
+      );
+    }
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -61,7 +97,7 @@ class _Page2State extends ConsumerState<Page2> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      'We Have Reframed Your Problem Statement,We Have Reframed Your Problem Statement,',
+                      prompt,
                       style: GoogleFonts.aBeeZee(
                           fontSize: 20,
                           // fontWeight: FontWeight.bold,
@@ -89,6 +125,9 @@ class _Page2State extends ConsumerState<Page2> {
                             ),
                             child: IconButton(
                               onPressed: () {
+                                ref
+                                    .read(promptProvider.notifier)
+                                    .update((state) => '');
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -173,6 +212,7 @@ class _Page2State extends ConsumerState<Page2> {
                           previous_ver: prompt,
                           feedback: textEditingController.text,
                           ref: ref);
+                      ref.read(promptProvider.notifier).update((state) => '');
                     },
                   ),
                 )

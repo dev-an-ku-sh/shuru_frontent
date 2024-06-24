@@ -19,7 +19,7 @@ class _MyMaterialBaseState extends State<MyMaterialBase> {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Page2(),
+      home: Page1(),
     );
   }
 }
