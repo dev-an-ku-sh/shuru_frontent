@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shuru_frontent/pages/page4.dart';
+import 'package:shuru_frontent/pages/page1.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyMaterialBase()));
@@ -18,7 +18,7 @@ class _MyMaterialBaseState extends State<MyMaterialBase> {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Page4(),
+      home: Page1(),
     );
   }
 }
