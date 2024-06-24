@@ -39,7 +39,7 @@ class _Page2State extends ConsumerState<Page2> {
                   border: OutlineInputBorder(),
                   labelText: 'Suggest improvements',
                 ),
-                onSubmitted: (String) {
+                onSubmitted: (val) {
                   ApiInterface.getRephrasedPromptAfterFeedback(
                       previous_ver: prompt,
                       feedback: textEditingController.text,

@@ -14,7 +14,6 @@ class _Page3State extends ConsumerState<Page3> {
   List PersonaList = [];
   @override
   void initState() {
-    // TODO: implement initState
     PersonaList = ref.read(personaListProvider);
     super.initState();
   }
