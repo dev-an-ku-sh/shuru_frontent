@@ -24,7 +24,7 @@ class _Page3State extends ConsumerState<Page3> {
     return Scaffold(
       body: Center(
         child: PersonaList.isEmpty
-            ? CircularProgressIndicator() // Show loading indicator when list is empty
+            ? const CircularProgressIndicator() // Show loading indicator when list is empty
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(PersonaList.length, (index) {
@@ -35,16 +35,16 @@ class _Page3State extends ConsumerState<Page3> {
                       child: Container(
                         height: 300,
                         width: 240,
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(PersonaList[index][0],
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 16, color: Colors.white)),
-                            SizedBox(height: 10), // Spacing between texts
+                            const SizedBox(height: 10), // Spacing between texts
                             Text(PersonaList[index][1],
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 16, color: Colors.white)),
                           ],
                         ),

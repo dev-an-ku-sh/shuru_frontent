@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shuru_frontent/pages/page1.dart';
 import 'package:shuru_frontent/pages/page4.dart';
 
 void main() {

@@ -45,7 +45,7 @@ class _Page5State extends ConsumerState<Page5> {
           "persona": PersonaList[i][0],
           "response": "${PersonaList[i][0]}:\n$response",
         });
-        pov_para += response + " ";
+        pov_para += "$response ";
         isFetchingResponse = false;
       });
     }
