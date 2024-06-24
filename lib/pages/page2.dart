@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shuru_frontent/backend/api_interface.dart';
 import 'package:shuru_frontent/backend/state.dart';
+import 'package:shuru_frontent/pages/page1.dart';
 import 'package:shuru_frontent/pages/page3.dart';
 
 class Page2 extends ConsumerStatefulWidget {
@@ -24,42 +26,172 @@ class _Page2State extends ConsumerState<Page2> {
   Widget build(BuildContext context) {
     prompt = ref.watch(promptProvider) ?? '';
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Is this what you meant?'),
-            Text(prompt),
-            const Text('You can provide suggest improvements below'),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 100.0),
-              child: TextField(
-                controller: textEditingController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Suggest improvements',
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("lib/assets/02.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(28.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 260,
                 ),
-                onSubmitted: (val) {
-                  ApiInterface.getRephrasedPromptAfterFeedback(
-                      previous_ver: prompt,
-                      feedback: textEditingController.text,
-                      ref: ref);
-                },
-              ),
-            )
-          ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'We Have Reframed Your Problem Statement, \nDoes It Look Right To You?',
+                      style: GoogleFonts.aBeeZee(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'We Have Reframed Your Problem Statement,We Have Reframed Your Problem Statement,',
+                      style: GoogleFonts.aBeeZee(
+                          fontSize: 20,
+                          // fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 100,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            decoration: const BoxDecoration(
+                              color: Colors
+                                  .white, // Set the container color to white
+                              shape: BoxShape
+                                  .circle, // Make the container circular
+                            ),
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Page1()),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back,
+                                size: 50,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            '< Click To Start Over',
+                            style: GoogleFonts.ubuntuMono(
+                                fontSize: 20,
+                                // fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          SizedBox(
+                            width: 200,
+                          ),
+                          Text(
+                            'Click To Continue >',
+                            style: GoogleFonts.ubuntuMono(
+                                fontSize: 20,
+                                // fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          Container(
+                            decoration: const BoxDecoration(
+                              color: Colors
+                                  .white, // Set the container color to white
+                              shape: BoxShape
+                                  .circle, // Make the container circular
+                            ),
+                            child: IconButton(
+                              onPressed: () {
+                                ApiInterface.getPersonaList(
+                                    problemStatement: prompt, ref: ref);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Page3()),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.arrow_forward,
+                                size: 50,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'You Can Suggest Improvements Below',
+                      style: GoogleFonts.ubuntuMono(
+                          fontSize: 20,
+                          // fontWeight: FontWeight.bold,
+                          color: Colors.white70),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 150.0),
+                  child: TextField(
+                    controller: textEditingController,
+                    decoration: const InputDecoration(
+                      fillColor: Colors.white70,
+                      filled: true,
+                      border: OutlineInputBorder(),
+                      labelText: 'Suggest improvements',
+                    ),
+                    onSubmitted: (val) {
+                      ApiInterface.getRephrasedPromptAfterFeedback(
+                          previous_ver: prompt,
+                          feedback: textEditingController.text,
+                          ref: ref);
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ApiInterface.getPersonaList(problemStatement: prompt, ref: ref);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const Page3()),
-          );
-        },
-        child: const Icon(Icons.arrow_forward),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.white,
+      //   onPressed: () {
+      //     ApiInterface.getPersonaList(problemStatement: prompt, ref: ref);
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(builder: (context) => const Page3()),
+      //     );
+      //   },
+      //   child: const Icon(Icons.arrow_forward),
+      // ),
     );
   }
 }
