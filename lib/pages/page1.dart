@@ -62,10 +62,10 @@ class _Page1State extends ConsumerState<Page1> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "We will set up a conference with our Intelligent AI Agents for you",
-                      style: GoogleFonts.oswald(
-                          fontSize: 25,
-                          // fontWeight: FontWeight.bold,
+                      "Ideate with the help of our Intelligent AI Agents.",
+                      style: GoogleFonts.ubuntuMono(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
                           color: Colors.white),
                     )
                   ],
