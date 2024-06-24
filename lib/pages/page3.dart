@@ -10,6 +10,45 @@ class Page3 extends StatefulWidget {
 class _Page3State extends State<Page3> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              height: 300,
+              width: 240,
+              color: Colors.red,
+            ),
+            Container(
+              height: 300,
+              width: 240,
+              color: Colors.red,
+            ),
+            Container(
+              height: 300,
+              width: 240,
+              color: Colors.red,
+            ),
+            Container(
+              height: 300,
+              width: 240,
+              color: Colors.red,
+            ),
+            Container(
+              height: 300,
+              width: 240,
+              color: Colors.red,
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigator.pop(context);
+        },
+        child: Icon(Icons.arrow_forward),
+      ),
+    );
   }
 }
