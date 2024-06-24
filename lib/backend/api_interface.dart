@@ -138,4 +138,64 @@ class ApiInterface {
       return response.statusCode.toString();
     }
   }
+
+  static Future<String> getAgentFeedback(
+      {required String agent_name,
+      required String agent_perspective,
+      required String problemStatement,
+      required String solution,
+      required WidgetRef ref}) async {
+    final response = await http.post(
+      Uri.parse(get_agent_feedback),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        "agent_name": agent_name,
+        "agent_perspective": agent_perspective,
+        "problem_statement": problemStatement,
+        "solution": solution
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      return responseData['response'];
+      // final rephrasedPrompt = responseData['response'];
+      // ref.read(promptProvider.notifier).update((state) => rephrasedPrompt);
+    } else {
+      print(
+          'Failed to send problem statement. Status code: ${response.statusCode}');
+      return response.statusCode.toString();
+    }
+  }
+
+  static Future<String> getSolutionWithFeedback(
+      {required String feedback,
+      required String problemStatement,
+      required String prev_solution,
+      required WidgetRef ref}) async {
+    final response = await http.post(
+      Uri.parse(generate_solution_with_feedback),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        "feedback": feedback,
+        "problem_statement": problemStatement,
+        "prev_solution": prev_solution
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      return responseData['response'];
+      // final rephrasedPrompt = responseData['response'];
+      // ref.read(promptProvider.notifier).update((state) => rephrasedPrompt);
+    } else {
+      print(
+          'Failed to send problem statement. Status code: ${response.statusCode}');
+      return response.statusCode.toString();
+    }
+  }
 }
