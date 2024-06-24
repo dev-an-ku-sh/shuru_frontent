@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shuru_frontent/pages/page1.dart';
-import 'package:shuru_frontent/pages/page2.dart';
-import 'package:shuru_frontent/pages/page3.dart';
-import 'package:shuru_frontent/pages/page4.dart';
 
 void main() {
-  runApp(const MyMaterialBase());
+  runApp(const ProviderScope(child: MyMaterialBase()));
 }
 
 class MyMaterialBase extends StatefulWidget {

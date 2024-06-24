@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shuru_frontent/backend/state.dart';
 
-class Page3 extends StatefulWidget {
+class Page3 extends ConsumerStatefulWidget {
   const Page3({super.key});
 
   @override
-  State<Page3> createState() => _Page3State();
+  ConsumerState<Page3> createState() => _Page3State();
 }
 
-class _Page3State extends State<Page3> {
+class _Page3State extends ConsumerState<Page3> {
+  List PersonaList = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    PersonaList = ref.read(personaListProvider);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    PersonaList = ref.watch(personaListProvider);
     return Scaffold(
       body: Center(
         child: Row(
@@ -19,26 +30,7 @@ class _Page3State extends State<Page3> {
               height: 300,
               width: 240,
               color: Colors.red,
-            ),
-            Container(
-              height: 300,
-              width: 240,
-              color: Colors.red,
-            ),
-            Container(
-              height: 300,
-              width: 240,
-              color: Colors.red,
-            ),
-            Container(
-              height: 300,
-              width: 240,
-              color: Colors.red,
-            ),
-            Container(
-              height: 300,
-              width: 240,
-              color: Colors.red,
+              child: Text(PersonaList.toString()),
             ),
           ],
         ),
@@ -47,7 +39,7 @@ class _Page3State extends State<Page3> {
         onPressed: () {
           // Navigator.pop(context);
         },
-        child: Icon(Icons.arrow_forward),
+        child: const Icon(Icons.arrow_forward),
       ),
     );
   }

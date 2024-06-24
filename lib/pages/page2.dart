@@ -1,32 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shuru_frontent/backend/api_interface.dart';
+import 'package:shuru_frontent/backend/state.dart';
+import 'package:shuru_frontent/pages/page3.dart';
 
-class Page2 extends StatefulWidget {
+class Page2 extends ConsumerStatefulWidget {
   const Page2({super.key});
 
   @override
-  State<Page2> createState() => _Page2State();
+  ConsumerState<Page2> createState() => _Page2State();
 }
 
-class _Page2State extends State<Page2> {
+class _Page2State extends ConsumerState<Page2> {
+  String prompt = '';
+  final TextEditingController textEditingController = TextEditingController();
+  @override
+  void initState() {
+    prompt = ref.read(promptProvider);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    prompt = ref.watch(promptProvider) ?? '';
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Is this what you meant?'),
-            Text('This is texttt'),
-            Text('You can provide suggest improvements below'),
+            const Text('Is this what you meant?'),
+            Text(prompt),
+            const Text('You can provide suggest improvements below'),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 100.0),
+              padding: const EdgeInsets.symmetric(horizontal: 100.0),
               child: TextField(
-                decoration: InputDecoration(
+                controller: textEditingController,
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Suggest improvements',
                 ),
                 onSubmitted: (String) {
-                  print('String');
+                  ApiInterface.getRephrasedPromptAfterFeedback(
+                      previous_ver: prompt,
+                      feedback: textEditingController.text,
+                      ref: ref);
                 },
               ),
             )
@@ -35,9 +52,13 @@ class _Page2State extends State<Page2> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigator.pop(context);
+          ApiInterface.getPersonaList(problemStatement: prompt, ref: ref);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Page3()),
+          );
         },
-        child: Icon(Icons.arrow_forward),
+        child: const Icon(Icons.arrow_forward),
       ),
     );
   }
