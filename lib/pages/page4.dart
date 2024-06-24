@@ -14,14 +14,13 @@ class _Page4State extends ConsumerState<Page4> {
   List PersonaList = [
     ["Miner Max", "Advocate for increasing network capacity..."],
     ["Developer Dan", "Propose the development and implementation..."],
-    // Other personas...
   ];
   String userInput = 'how to reduce evm gas fees';
-  List<String> responses = []; // To store responses
-  bool isFetchingResponse = false; // Flag to indicate fetching state
-  String pov_para = ''; // String to append all responses
-  String currentTypingPersona =
-      ''; // To keep track of which persona is "typing"
+  List<Map<String, String>> responses =
+      []; // Updated to store responses with persona names
+  bool isFetchingResponse = false;
+  String pov_para = '';
+  String currentTypingPersona = '';
 
   @override
   void initState() {
@@ -32,9 +31,8 @@ class _Page4State extends ConsumerState<Page4> {
   void fetchResponsesSequentially() async {
     for (var i = 0; i < PersonaList.length; i++) {
       setState(() {
-        isFetchingResponse = true; // Start fetching response
-        currentTypingPersona =
-            "${PersonaList[i][0]} is typing..."; // Set the current typing persona
+        isFetchingResponse = true;
+        currentTypingPersona = "${PersonaList[i][0]} is typing...";
       });
       var response = await ApiInterface.getAgentResponse(
         agent_name: PersonaList[i][0],
@@ -43,25 +41,30 @@ class _Page4State extends ConsumerState<Page4> {
         ref: ref,
       );
       setState(() {
-        responses.add(response);
-        pov_para += response + " "; // Append response to pov_para
-        isFetchingResponse = false; // Response fetched
+        responses.add({
+          "persona": PersonaList[i][0],
+          "response": "${PersonaList[i][0]}:\n$response",
+        });
+        pov_para += response + " ";
+        isFetchingResponse = false;
       });
     }
-    fetchSolution(); // Fetch the solution after all responses are fetched
+    fetchSolution();
   }
 
   void fetchSolution() async {
     setState(() {
-      isFetchingResponse = true; // Start fetching final solution
-      currentTypingPersona =
-          "Finding solution..."; // Set message for finding solution
+      isFetchingResponse = true;
+      currentTypingPersona = "Finding solution...";
     });
     var solution = await ApiInterface.getSolution(
         pov_para: pov_para, problemStatement: userInput, ref: ref);
     setState(() {
-      responses.add(solution); // Add the final solution to responses
-      isFetchingResponse = false; // Final solution fetched
+      responses.add({
+        "persona": "Solution",
+        "response": "Based on the perspectives provided I suggest:\n$solution",
+      });
+      isFetchingResponse = false;
     });
   }
 
@@ -83,12 +86,13 @@ class _Page4State extends ConsumerState<Page4> {
                   child: Text(userInput),
                 );
               } else if (index <= responses.length) {
+                // Check if it's the final solution or a persona response
+                String displayText = responses[index - 1]["response"]!;
                 return ChatBubble(
                   clipper: ChatBubbleClipper7(type: BubbleType.receiverBubble),
-                  child: Text(responses[index - 1]),
+                  child: Text(displayText),
                 );
               } else {
-                // Display either the current typing persona or the finding solution message
                 return ChatBubble(
                   clipper: ChatBubbleClipper7(type: BubbleType.receiverBubble),
                   child: Text(currentTypingPersona),
