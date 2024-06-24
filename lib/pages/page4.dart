@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shuru_frontent/backend/api_interface.dart';
 import 'package:shuru_frontent/pages/page1.dart';
 
@@ -152,7 +151,7 @@ class _Page4State extends ConsumerState<Page4> {
                           clipper:
                               ChatBubbleClipper4(type: BubbleType.sendBubble),
                           alignment: Alignment.topRight,
-                          margin: EdgeInsets.all(20),
+                          margin: const EdgeInsets.all(20),
                           backGroundColor: Colors.blueGrey,
                           child: Container(
                             constraints: BoxConstraints(
@@ -161,7 +160,7 @@ class _Page4State extends ConsumerState<Page4> {
                             child: Text(
                               userInput,
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
+                                  const TextStyle(color: Colors.white, fontSize: 18),
                             ),
                           ),
                         );
@@ -177,15 +176,15 @@ class _Page4State extends ConsumerState<Page4> {
                             ChatBubble(
                           clipper: ChatBubbleClipper4(
                               type: BubbleType.receiverBubble),
-                          backGroundColor: Color(0xffE7E7ED),
-                          margin: EdgeInsets.only(top: 20),
+                          backGroundColor: const Color(0xffE7E7ED),
+                          margin: const EdgeInsets.only(top: 20),
                           child: Container(
                             constraints: BoxConstraints(
                               maxWidth: MediaQuery.of(context).size.width * 0.7,
                             ),
                             child: Text(
                               displayText,
-                              style: TextStyle(color: Colors.black),
+                              style: const TextStyle(color: Colors.black),
                             ),
                           ),
                         );
@@ -193,15 +192,15 @@ class _Page4State extends ConsumerState<Page4> {
                         return ChatBubble(
                           clipper: ChatBubbleClipper4(
                               type: BubbleType.receiverBubble),
-                          backGroundColor: Color(0xffE7E7ED),
-                          margin: EdgeInsets.only(top: 20),
+                          backGroundColor: const Color(0xffE7E7ED),
+                          margin: const EdgeInsets.only(top: 20),
                           child: Container(
                             constraints: BoxConstraints(
                               maxWidth: MediaQuery.of(context).size.width * 0.7,
                             ),
                             child: Text(
                               currentTypingPersona,
-                              style: TextStyle(color: Colors.black),
+                              style: const TextStyle(color: Colors.black),
                             ),
                           ),
                         );
@@ -273,7 +272,7 @@ class _Page4State extends ConsumerState<Page4> {
             MaterialPageRoute(builder: (context) => const Page1()),
           );
         },
-        child: Icon(Icons.exit_to_app),
+        child: const Icon(Icons.exit_to_app),
       ),
     );
   }

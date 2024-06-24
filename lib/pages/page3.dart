@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shuru_frontent/backend/state.dart';
 import 'package:shuru_frontent/pages/page1.dart';
-import 'package:shuru_frontent/pages/page2.dart';
 import 'package:shuru_frontent/pages/page4.dart';
 
 class Page3 extends ConsumerStatefulWidget {
@@ -58,7 +57,7 @@ class _Page3State extends ConsumerState<Page3> {
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     const SizedBox(
@@ -84,7 +83,7 @@ class _Page3State extends ConsumerState<Page3> {
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 100,
                     ),
                     Row(
@@ -134,7 +133,7 @@ class _Page3State extends ConsumerState<Page3> {
                         }
                       }),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 160,
                     ),
                     Padding(
@@ -173,7 +172,7 @@ class _Page3State extends ConsumerState<Page3> {
                                 // fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 200,
                           ),
                           Text(

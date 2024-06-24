@@ -38,7 +38,7 @@ class _Page2State extends ConsumerState<Page2> {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 120,
                 height: 120,
                 child: CircularProgressIndicator(
@@ -46,7 +46,7 @@ class _Page2State extends ConsumerState<Page2> {
                   strokeWidth: 8,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
               Text(
@@ -75,7 +75,7 @@ class _Page2State extends ConsumerState<Page2> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 260,
                 ),
                 Row(
@@ -90,7 +90,7 @@ class _Page2State extends ConsumerState<Page2> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
@@ -105,7 +105,7 @@ class _Page2State extends ConsumerState<Page2> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 SizedBox(
@@ -147,7 +147,7 @@ class _Page2State extends ConsumerState<Page2> {
                                 // fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 200,
                           ),
                           Text(
