@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shuru_frontent/backend/api_interface.dart';
 import 'package:shuru_frontent/backend/state.dart';
 import 'package:shuru_frontent/pages/page1.dart';
 import 'package:shuru_frontent/pages/page4.dart';
@@ -13,9 +14,22 @@ class Page3 extends ConsumerStatefulWidget {
 }
 
 class _Page3State extends ConsumerState<Page3> {
-  List PersonaList = [];
+  final TextEditingController textEditingController = TextEditingController();
+  bool isCreatingAgent = false;
+  List PersonaList = [
+    // [
+    //   'Population Control Paul',
+    //   'Advocates for and implements government policies that provide financial incentives for smaller families, such as tax breaks and subsidies.'
+    // ],
+    // [
+    //   'Educated Eva',
+    //   'Promotes investment in accessible education for girls and women to expand economic opportunities, leading to delayed marriage and fewer children.'
+    // ],
+  ];
+  String agenda = '';
   @override
   void initState() {
+    agenda = ref.read(promptProvider);
     PersonaList = ref.read(personaListProvider);
     super.initState();
   }
@@ -32,7 +46,7 @@ class _Page3State extends ConsumerState<Page3> {
           ),
         ),
         child: Center(
-          child: PersonaList.isEmpty
+          child: PersonaList.isEmpty || isCreatingAgent
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -51,7 +65,7 @@ class _Page3State extends ConsumerState<Page3> {
                       height: 50,
                     ),
                     Text(
-                      'Summoning Beings Of Higher Intelligence...',
+                      'Creating AI Agents...',
                       style: GoogleFonts.aBeeZee(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
@@ -63,57 +77,135 @@ class _Page3State extends ConsumerState<Page3> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(
-                      height: 100,
+                      height: 60,
                     ),
-                    Row(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'These AI Agents Will Be Joining You...',
+                          'Below is a List of AI Agents that will be joining the conference.',
                           style: GoogleFonts.aBeeZee(
-                              fontSize: 40,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54),
+                        ),
+                        Text(
+                          'We have created 2 AI Agents, You can remove them using "X".',
+                          style: GoogleFonts.aBeeZee(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54),
+                        ),
+                        Text(
+                          'Create Custom AI Agents using the below TextField. You can create as many AI Agents as you want',
+                          style: GoogleFonts.aBeeZee(
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.black54),
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 30,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(PersonaList.length, (index) {
-                        if (PersonaList.length > index &&
-                            PersonaList[index].length >= 2) {
-                          return Card(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            color: Colors.white12,
-                            child: Container(
-                              height: 300,
-                              width: 240,
-                              padding: const EdgeInsets.all(8),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(PersonaList[index][0],
-                                      style: const TextStyle(
-                                          fontSize: 20, color: Colors.white)),
-                                  const SizedBox(
-                                      height: 10), // Spacing between texts
-                                  Text(PersonaList[index][1],
-                                      style: const TextStyle(
-                                          fontSize: 16, color: Colors.white)),
-                                ],
-                              ),
-                            ),
-                          );
-                        } else {
-                          // Return an empty container if the condition is not met
-                          return Container();
-                        }
-                      }),
+                      children: List.generate(
+                        PersonaList.length,
+                        (index) {
+                          if (PersonaList.length > index &&
+                              PersonaList[index].length >= 2) {
+                            return Stack(
+                              children: [
+                                Card(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ),
+                                  color: Colors.white12,
+                                  child: Container(
+                                    height: 300,
+                                    width: 240,
+                                    padding: const EdgeInsets.all(8),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          PersonaList[index][0],
+                                          style: GoogleFonts.aBeeZee(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black54),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          PersonaList[index][1],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  child: IconButton(
+                                    icon: const Icon(Icons.close,
+                                        color: Colors.black),
+                                    onPressed: () {
+                                      setState(() {
+                                        PersonaList.removeAt(index);
+                                        ref
+                                            .read(personaListProvider.notifier)
+                                            .update((state) => PersonaList);
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return Container();
+                          }
+                        },
+                      ),
                     ),
                     const SizedBox(
-                      height: 240,
+                      height: 100,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                      child: TextField(
+                        controller: textEditingController,
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white70,
+                          filled: true,
+                          border: OutlineInputBorder(),
+                          labelText:
+                              'Write a short description to create your own custom AI Agent',
+                        ),
+                        onSubmitted: (val) async {
+                          setState(() {
+                            isCreatingAgent = true;
+                          });
+                          List lst = await ApiInterface.createCustomPersona(
+                              problem_statement: agenda,
+                              user_input: textEditingController.text,
+                              ref: ref);
+                          textEditingController.clear();
+                          setState(() {
+                            isCreatingAgent = false;
+                          });
+                          print(lst);
+                          setState(() {
+                            PersonaList.add(lst);
+                            ref
+                                .read(personaListProvider.notifier)
+                                .update((state) => PersonaList);
+                          });
+                        },
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(28.0),
@@ -122,10 +214,8 @@ class _Page3State extends ConsumerState<Page3> {
                         children: [
                           Container(
                             decoration: const BoxDecoration(
-                              color: Colors
-                                  .white, // Set the container color to white
-                              shape: BoxShape
-                                  .circle, // Make the container circular
+                              color: Colors.white,
+                              shape: BoxShape.circle,
                             ),
                             child: IconButton(
                               onPressed: () {

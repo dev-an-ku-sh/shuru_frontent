@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shuru_frontent/pages/page1.dart';
+import 'package:shuru_frontent/pages/page3.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyMaterialBase()));

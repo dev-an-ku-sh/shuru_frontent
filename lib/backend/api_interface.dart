@@ -5,18 +5,42 @@ import 'dart:convert';
 import 'package:shuru_frontent/backend/state.dart';
 
 class ApiInterface {
-  static const base_url = "http://localhost:5000";
+  static var base_url = "http://localhost:5000";
+  //Test
+  static var test_connection = "$base_url/test_connection";
   //Rephrasing
-  static const rephrase = "$base_url/rephrase";
-  static const rephrase_with_feedback = "$base_url/rephrase_with_feedback";
+  static var rephrase = "$base_url/rephrase";
+  static var create_custom_persona = "$base_url/create_custom_persona";
+  static var rephrase_with_feedback = "$base_url/rephrase_with_feedback";
   //Persona Creation
-  static const create_persona_list = "$base_url/create_persona_list";
+  static var create_persona_list = "$base_url/create_persona_list";
   //Chat
-  static const get_agent_perspective = "$base_url/get_agent_perspective";
-  static const generate_solution = "$base_url/generate_solution";
-  static const get_agent_feedback = "$base_url/get_agent_feedback";
-  static const generate_solution_with_feedback =
+  static var get_agent_perspective = "$base_url/get_agent_perspective";
+  static var generate_solution = "$base_url/generate_solution";
+  static var get_agent_feedback = "$base_url/get_agent_feedback";
+  static var generate_solution_with_feedback =
       "$base_url/generate_solution_with_feedback";
+
+  static Future<bool> testConnection({required WidgetRef ref}) async {
+    final response = await http.post(
+      Uri.parse(test_connection),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({}),
+    );
+
+    if (response.statusCode == 200) {
+      // final responseData = json.decode(response.body);
+      // final tmp = responseData['response'];
+      // ref.read(connectionStatusProvider.notifier).update((state) => tmp);
+      return true;
+    } else {
+      // print(
+      //     'Failed to send problem statement. Status code: ${response.statusCode}');
+      return false;
+    }
+  }
 
   static Future<void> getRephrasedPrompt(
       {required String problemStatement, required WidgetRef ref}) async {
@@ -80,6 +104,49 @@ class ApiInterface {
       ref.read(personaListProvider.notifier).update((state) => personaList);
     } else {
       print('error personaList: ${response.statusCode}');
+    }
+  }
+
+  static Future<List> createCustomPersona({
+    required String problem_statement,
+    required String user_input,
+    required WidgetRef ref,
+  }) async {
+    final response = await http.post(
+      Uri.parse(create_custom_persona),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        "problem_statement": problem_statement,
+        "user_input": user_input,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      print('Decoded response data: $responseData');
+      // print(responseData);
+      // List<dynamic> personList = responseData['response'];
+      // print(personList);
+
+      // Extracting name and pov from the response
+      String name = "${responseData['name']}";
+      String pov = "${responseData['pov']}";
+      // List<dynamic> tmpList = ref.read(personaListProvider);
+      // List<dynamic> personaDetails = tmpList;
+      // Creating a list and adding name and pov to it
+      List<dynamic> persona = [name, pov];
+      // personaDetails.add(persona);
+      // ref
+      //     .read(personaListProvider.notifier)
+      //     .update((state) => [...state, ...personaDetails]);
+      print('apis: $persona');
+      return persona;
+      // print(personaDetails[0]);
+    } else {
+      print('error personaList: ${response.statusCode}');
+      return [];
     }
   }
 
