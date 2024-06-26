@@ -76,13 +76,13 @@ class _Page2State extends ConsumerState<Page2> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 260,
+                  height: 200,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      'We Have Reframed Your Problem Statement, \nDoes It Look Right To You?',
+                      'We Have Refined The Agenda For You',
                       style: GoogleFonts.aBeeZee(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
@@ -106,10 +106,45 @@ class _Page2State extends ConsumerState<Page2> {
                   ],
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 120,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Doesn't seem right? You can suggest improvements in the field below",
+                        style: GoogleFonts.aBeeZee(
+                            fontSize: 20,
+                            // fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 500.0, right: 8),
+                  child: TextField(
+                    controller: textEditingController,
+                    decoration: const InputDecoration(
+                      fillColor: Colors.white70,
+                      filled: true,
+                      border: OutlineInputBorder(),
+                      labelText: 'Suggest improvements to refine agenda',
+                    ),
+                    onSubmitted: (val) {
+                      ApiInterface.getRephrasedPromptAfterFeedback(
+                          previous_ver: prompt,
+                          feedback: textEditingController.text,
+                          ref: ref);
+                      ref.read(promptProvider.notifier).update((state) => '');
+                      textEditingController.clear();
+                    },
+                  ),
                 ),
                 SizedBox(
-                  height: 100,
+                  height: 200,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -148,10 +183,10 @@ class _Page2State extends ConsumerState<Page2> {
                                 color: Colors.white),
                           ),
                           const SizedBox(
-                            width: 200,
+                            width: 700,
                           ),
                           Text(
-                            'Click To Continue >',
+                            'Continue to Agent Creation >',
                             style: GoogleFonts.ubuntuMono(
                                 fontSize: 20,
                                 // fontWeight: FontWeight.bold,
@@ -185,38 +220,6 @@ class _Page2State extends ConsumerState<Page2> {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'You Can Suggest Improvements Below',
-                      style: GoogleFonts.ubuntuMono(
-                          fontSize: 20,
-                          // fontWeight: FontWeight.bold,
-                          color: Colors.white70),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 150.0),
-                  child: TextField(
-                    controller: textEditingController,
-                    decoration: const InputDecoration(
-                      fillColor: Colors.white70,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                      labelText: 'Suggest improvements',
-                    ),
-                    onSubmitted: (val) {
-                      ApiInterface.getRephrasedPromptAfterFeedback(
-                          previous_ver: prompt,
-                          feedback: textEditingController.text,
-                          ref: ref);
-                      ref.read(promptProvider.notifier).update((state) => '');
-                      textEditingController.clear();
-                    },
-                  ),
-                )
               ],
             ),
           ),
